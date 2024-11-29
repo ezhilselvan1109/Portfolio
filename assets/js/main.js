@@ -54,8 +54,46 @@ let swiper=new Swiper(".projects__container",{
 
 
 /*=============== EMAIL JS ===============*/
+const contactForm=document.getElementById('contact-form'),
+      contactName=document.getElementById('contact-name'),
+      contactEmail=document.getElementById('contact-email'),
+      contactProject=document.getElementById('contact-project'),
+      contactMessage=document.getElementById('contact-message')
 
+const sendEmail=(e)=>{
+    e.preventDefault();
+    //check if the field has a value
+    if(contactName.value==='' || contactEmail.value==='' || contactProject.value===''){
+        //add and remove color
+        contactMessage.classList.remove('color-blue');
+        contactMessage.classList.add('color-red');
 
+        //show message
+        contactMessage.textContent='Write all the input fields 📩'
+    }else{
+        //serviceID - templateID -#form -publicKey
+        emailjs.sendForm('service_cwgotsj','template_37dakq8','#contact-form','I9eg3FTISTYrhg3wf')
+        .then(()=>{
+            //show message and add coloe
+            contactMessage.classList.add('color-blue')
+            contactMessage.textContent='Message send ✅'
+
+            //remove messae after five seconds
+            settimeout(()=>{
+                contactMessage.textContent=''
+            },5000)
+        },(error)=>{
+            alert('OOPS! SOMETHING HAS FAILED...',error)
+        })
+
+        //  to clear the input field
+        contactName.value=''
+        contactEmail.value=''
+        contactProject.value=''
+    }
+}
+
+contactForm.addEventListener('submit',sendEmail)
 /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
 
 
